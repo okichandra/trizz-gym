@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap');
+@import "tailwindcss";
+
+@theme {
+    --color-main-background: #0A080C;
+    --color-secondary-background: #0B090D;
+    --color-third-background: #1C1920;
+    --color-light: #fff;
+    --color-medium: #A3A3A3;
+    --color-dark: #1C1920;
+    --font-rethink-sans: 'Rethink Sans', sans-serif;
+}
+
+/* @font-face {
+    --font-rethink-sans: 'Rethink Sans', sans-serif;
+} */
