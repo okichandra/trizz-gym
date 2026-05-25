@@ -9,12 +9,12 @@ include __DIR__ . "/../config/database.php";
 
 $data = json_decode(file_get_contents("php://input"));
 
-$email = $data->email;
+$username = $data->username;
 $password = $data->password;
 
 $query = mysqli_query(
     $conn,
-    "select * from users where email = '$email'"
+    "select * from users where username = '$username'"
 );
 
 if (mysqli_num_rows($query) == 0) {

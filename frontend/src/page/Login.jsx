@@ -1,40 +1,81 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
+import { useNavigate, Link } from "react-router-dom";
+
 import Logo from '../assets/trizz-logo.svg'
+
 import Input from '../component/Personal/Input';
 import SubmitButton from '../component/Personal/SubmitButton';
-import { Link } from 'react-router-dom';
 import FormBackground from '../component/Personal/FormBackground';
 
-export default class Login extends Component {
+export default function Login() {
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
 
-    render() {
-        return (
-            <div className='bg-main-background h-screen w-screen flex items-center justify-center font-rethink-sans'>
-                <div id='login-container'
-                    className='w-5/6 h-9/10 bg-secondary-background rounded-lg shadow-[0_0_0_1px_rgba(225,225,225,.1)] grid grid-cols-12'>
-                    <FormBackground />
-                    <div id='login-form' className='col-span-5 p-16 px-28'>
-                        <div className='Logo flex flex-row justify-center items-center pb-24 pt-4 gap-2 font-semibold'>
-                            <img src={Logo} alt="trizz logo" className='w-12' />
-                            <span className='text-light'>Tirzz GYM</span>
+    const navigate = useNavigate()
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+
+        if (!username || !password) {
+            alert("Username dan password harus diisi")
+            return
+        }
+
+        try {
+            const response = await fetch(
+                "http://localhost:8000/api/login.php",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                }
+            )
+            const data = await response.json()
+            
+            if (data.status) {
+                localStorage.setItem("user", JSON.stringify(data.user))
+                navigate("/")
+            } else {
+                alert(data.message)
+            }
+
+        } catch (error) {
+            console.log(error)
+            alert("Terjadi error")
+        }
+    }
+
+    return (
+        <div className='bg-main-background h-screen w-screen flex items-center justify-center font-rethink-sans'>
+            <div id='login-container'
+                className='w-5/6 h-9/10 bg-secondary-background rounded-lg shadow-[0_0_0_1px_rgba(225,225,225,.1)] grid grid-cols-12'>
+                <FormBackground />
+                <div id='login-form' className='col-span-5 p-16 px-28'>
+                    <div className='Logo flex flex-row justify-center items-center pb-24 pt-4 gap-2 font-semibold'>
+                        <img src={Logo} alt="trizz logo" className='w-12' />
+                        <span className='text-light'>Tirzz GYM</span>
+                    </div>
+                    <div className='flex flex-col gap-9'>
+                        <div className='text-light gap-1.5 flex flex-col'>
+                            <h4 className='text-xl'>Welcome back Sir!</h4>
+                            <span className='text-medium text-sm'>Sign in to your account to continue your journey with Tirzz GYM</span>
                         </div>
-                        <div className='flex flex-col gap-9'>
-                            <div className='text-light gap-1.5 flex flex-col'>
-                                <h4 className='text-xl'>Welcome back Sir!</h4>
-                                <span className='text-medium text-sm'>Sign in to your account to continue your journey with Tirzz GYM</span>
+                        <form onSubmit={handleLogin} className='text-light flex flex-col gap-5'>
+                            <Input type="text" id="username" placeholder="Enter your username" label="Username*" value={username} onChange={(e) => setUsername(e.target.value)} />
+                            <Input type="password" id="password" placeholder="********" label="Password*" value={password} onChange={(e) => setPassword(e.target.value)} />
+                            <div className='flex flex-col gap-1 -mt-3'>
+                                <SubmitButton text="Sign in" />
+                                <span className='text-medium text-sm'>Don't have account? <Link to="/register" className='font-semibold text-light'>Sign Up</Link></span>
                             </div>
-                            <form action="" className='text-light flex flex-col gap-5'>
-                                <Input type="text" id="username" placeholder="Enter your username" label="Username*" />
-                                <Input type="password" id="password" placeholder="********" label="Password*" />
-                                <div className='flex flex-col gap-1 -mt-3'>
-                                    <SubmitButton text="Sign in" />
-                                    <span className='text-medium text-sm'>Don't have account? <Link to="/register" className='font-semibold text-light'>Sign Up</Link></span>
-                                </div>
-                            </form>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 }

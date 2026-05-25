@@ -1,10 +1,11 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import Grainient from '../component/ReactBitz/Grainient';
 import Logo from '../assets/trizz-logo.svg'
 import Input from '../component/Personal/Input';
 import SubmitButton from '../component/Personal/SubmitButton';
 import { Link } from 'react-router-dom';
 import FormBackground from '../component/Personal/FormBackground';
+import { useEffect } from 'react';
 
 function Register() {
 
@@ -13,9 +14,47 @@ function Register() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
+    const [strength, setStrength] = useState("weak")
+    const [color, setColor] = useState("text-red-400")
+
+    const hasLowercase = /[a-z]/.test(password);
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password)
+
+    useEffect(() => {
+
+        const hasLowercase = /[a-z]/.test(password);
+        const hasUppercase = /[A-Z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+
+        if (
+            hasLowercase &&
+            hasUppercase &&
+            hasNumber
+        ) {
+
+            if (password.length >= 12) {
+                setStrength("strong");
+                setColor("text-green-400")
+            } else if (password.length >= 8) {
+                setStrength("medium");
+                setColor("text-yellow-400")
+            }
+
+        } else {
+            setStrength("weak");
+            setColor("text-red-400")
+        }
+
+    }, [password]);
+
 
     const handleRegister = async (e) => {
         e.preventDefault();
+        if (!username || !password) {
+            alert("Username dan password harus diisi")
+            return
+        }
         if (password !== confirmPassword) {
             alert("Password tidak sama")
             return
@@ -110,8 +149,8 @@ function Register() {
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                 />
-
                             </div>
+                            {password != '' && <h1 className={color}>password strength: {strength}</h1>}
 
                             <div className='flex flex-col gap-1 -mt-3'>
 
