@@ -88,10 +88,10 @@ function Register() {
 
     return (
         <div className='bg-main-background h-screen w-screen flex items-center justify-center font-rethink-sans'>
-            <div id='login-container'
-                className='w-5/6 h-9/10 bg-secondary-background rounded-lg shadow-[0_0_0_1px_rgba(225,225,225,.1)] grid grid-cols-12'>
+            <div id='register-container'
+                className='w-full md:w-5/6 h-9/10 p-4 bg-secondary-background md:rounded-lg md:shadow-[0_0_0_1px_rgba(225,225,225,.1)] md:grid grid-cols-12'>
                 <FormBackground />
-                <div id='login-form' className='col-span-5 p-16 px-28'>
+                <div id='register-form' className='col-span-5 m:p-16 md:px-28'>
                     <div className='Logo flex flex-row justify-center items-center pb-24 pt-4 gap-2 font-semibold'>
                         <img src={Logo} alt="trizz logo" className='w-12' />
                         <span className='text-light'>Tirzz GYM</span>

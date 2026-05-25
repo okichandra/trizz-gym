@@ -3,7 +3,7 @@ import Grainient from '../ReactBitz/Grainient';
 
 function FormBackground() {
     return (
-        <div id='background' className='col-span-7 relative overflow-hidden'>
+        <div id='background' className='col-span-7 relative overflow-hidden hidden md:flex'>
             <Grainient
                 color1="#6911A3"
                 color3="#7D257E"
@@ -30,7 +30,7 @@ function FormBackground() {
 
                 className='absolute'
             />
-            <div className='relative border-red-500 z-10 h-full w-full flex flex-col capitalize justify-end p-10 gap-4'>
+            <div className='relative border-red-500 z-10 h-full w-full flex flex-col capitalize justify-end p-10 gap-4 '>
                 <h3 className='text-medium text-3xl font-medium w-1/4'>Push <span className='text-light font-semibold'>your limit</span> with us</h3>
                 <span className='text-light w-1/2 text-sm'>train smarter, get stronger, and push your limit with expert coaching.</span>
             </div>
