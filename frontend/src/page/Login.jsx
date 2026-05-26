@@ -39,7 +39,7 @@ export default function Login() {
 
             if (data.status) {
                 localStorage.setItem("user", JSON.stringify(data.user))
-                navigate("/")
+                navigate("/account")
             } else {
                 alert(data.message)
             }
