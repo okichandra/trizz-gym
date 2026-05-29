@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from "react-router-dom";
 
-import { login } from '../api/auth'
+import { loginUser as login } from '../api/auth'
 
 import Logo from '../assets/trizz-logo.svg'
 
@@ -27,7 +27,7 @@ export default function Login() {
             const response = await login({ username, password });
             const data = await response;
 
-            if (data.status) {
+            if (data.success) {
                 localStorage.setItem("user", JSON.stringify(data.user))
                 navigate("/account")
             } else {

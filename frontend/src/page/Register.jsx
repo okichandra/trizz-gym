@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import FormBackground from '../component/Personal/FormBackground';
 import { useEffect } from 'react';
 
-import {register} from '../api/auth'
+    import {registerUser as register} from '../api/auth'
 
 function Register() {
 
@@ -62,12 +62,9 @@ function Register() {
             return
         }
         try {
-            const response = await register({ fullName, username, email, password });
+            const response = await register({ full_name: fullName, username, email, password });
 
-            const data = await response;
-
-            alert(data.message)
-            console.log(data)
+            console.log(response.message)
         } catch (error) {
             console.log(error)  
             alert("Terjadi error")
