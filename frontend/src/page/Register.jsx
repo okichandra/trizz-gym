@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import FormBackground from '../component/Personal/FormBackground';
 import { useEffect } from 'react';
 
-    import {registerUser as register} from '../api/auth'
+import { registerUser as register } from '../api/auth'
 
 function Register() {
 
@@ -18,6 +18,7 @@ function Register() {
     const [confirmPassword, setConfirmPassword] = useState("")
     const [strength, setStrength] = useState("weak")
     const [color, setColor] = useState("text-red-400")
+    const [waiting, setWaiting] = useState(false)
 
     const hasLowercase = /[a-z]/.test(password);
     const hasUppercase = /[A-Z]/.test(password);
@@ -53,26 +54,32 @@ function Register() {
 
     const handleRegister = async (e) => {
         e.preventDefault();
+        setWaiting(true);
         if (!username || !password) {
             alert("Username dan password harus diisi")
+            setWaiting(false)
             return
         }
         if (password !== confirmPassword) {
             alert("Password tidak sama")
+            setWaiting(false)
             return
         }
         try {
             const response = await register({ full_name: fullName, username, email, password });
-
+            setWaiting(false);
+            alert(response.message)
             console.log(response.message)
+            window.location.reload()
         } catch (error) {
-            console.log(error)  
+            console.log(error)
             alert("Terjadi error")
+            setWaiting(false)
         }
     }
 
     return (
-        <div className='bg-main-background h-screen w-screen flex items-center justify-center font-rethink-sans'>
+        <div className='bg-main-background md:h-screen min-h-screen w-screen flex md:items-center md:justify-center font-rethink-sans pt-4'>
             <div id='register-container'
                 className='w-full md:w-5/6 h-9/10 p-4 bg-secondary-background md:rounded-lg md:shadow-[0_0_0_1px_rgba(225,225,225,.1)] md:grid grid-cols-12'>
                 <FormBackground />
@@ -139,7 +146,7 @@ function Register() {
 
                             <div className='flex flex-col gap-1 -mt-3'>
 
-                                <SubmitButton text="Create Account" />
+                                <SubmitButton text="Create Account" waiting={waiting} />
 
                                 <span className='text-medium text-sm'>
                                     Already have an account?

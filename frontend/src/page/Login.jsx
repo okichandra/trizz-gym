@@ -13,6 +13,8 @@ export default function Login() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
+    const [waiting, setWaiting] = useState(false)
+
     const navigate = useNavigate()
 
     const handleLogin = async (e) => {
@@ -24,17 +26,19 @@ export default function Login() {
         }
 
         try {
+            setWaiting(true);
             const response = await login({ username, password });
-            const data = await response;
 
-            if (data.success) {
-                localStorage.setItem("user", JSON.stringify(data.user))
+            setWaiting(false);
+
+            if (response.success) {
+                localStorage.setItem("user", JSON.stringify(response.user))
                 navigate("/account")
             } else {
-                alert(data.message)
+                alert(response.message)
             }
 
-            console.log(data);
+            console.log(response);
 
         } catch (error) {
             console.log(error)
@@ -43,7 +47,7 @@ export default function Login() {
     }
 
     return (
-        <div className='bg-main-background h-screen w-screen flex items-center justify-center font-rethink-sans'>
+        <div className='bg-main-background h-screen w-screen flex md:justify-center md:items-center pt-4 font-rethink-sans'>
             <div id='login-container'
                 className='w-full md:w-5/6 h-9/10 p-4 bg-secondary-background rounded-lg md:shadow-[0_0_0_1px_rgba(225,225,225,.1)] md:grid grid-cols-12'>
                 <FormBackground />
@@ -61,7 +65,7 @@ export default function Login() {
                             <Input type="text" id="username" placeholder="Enter your username" label="Username*" value={username} onChange={(e) => setUsername(e.target.value)} />
                             <Input type="password" id="password" placeholder="********" label="Password*" value={password} onChange={(e) => setPassword(e.target.value)} />
                             <div className='flex flex-col gap-1 -mt-3'>
-                                <SubmitButton text="Sign in" />
+                                <SubmitButton text="Sign in" waiting={waiting} />
                                 <span className='text-medium text-sm'>Don't have account? <Link to="/register" className='font-semibold text-light'>Sign Up</Link></span>
                             </div>
                         </form>
