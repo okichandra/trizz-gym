@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from "react-router-dom";
 
+import { login } from '../api/auth'
+
 import Logo from '../assets/trizz-logo.svg'
 
 import Input from '../component/Personal/Input';
@@ -22,20 +24,8 @@ export default function Login() {
         }
 
         try {
-            const response = await fetch(
-                "http://localhost:8000/api/login.php",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        username: username,
-                        password: password
-                    })
-                }
-            )
-            const data = await response.json()
+            const response = await login({ username, password });
+            const data = await response;
 
             if (data.status) {
                 localStorage.setItem("user", JSON.stringify(data.user))
@@ -43,6 +33,8 @@ export default function Login() {
             } else {
                 alert(data.message)
             }
+
+            console.log(data);
 
         } catch (error) {
             console.log(error)

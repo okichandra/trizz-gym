@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import FormBackground from '../component/Personal/FormBackground';
 import { useEffect } from 'react';
 
+import {register} from '../api/auth'
+
 function Register() {
 
     const [fullName, setFullName] = useState("")
@@ -60,28 +62,14 @@ function Register() {
             return
         }
         try {
-            const response = await fetch(
-                "http://localhost:8000/api/register.php",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        full_name: fullName,
-                        username: username,
-                        email: email,
-                        password: password
-                    })
-                }
-            )
+            const response = await register({ fullName, username, email, password });
 
-            const data = await response.json()
+            const data = await response;
 
             alert(data.message)
             console.log(data)
         } catch (error) {
-            console.log(error)
+            console.log(error)  
             alert("Terjadi error")
         }
     }
