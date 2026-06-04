@@ -12,20 +12,29 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    public $timestamps = false;
-
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
     protected $fillable = [
+        'member_code',
+        'qr_token',
         'full_name',
         'username',
         'email',
         'password',
     ];
 
+    public function memberships()
+    {
+        return $this->hasMany(Membership::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

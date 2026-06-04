@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -17,7 +18,13 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
+        $nextId = (User::max('id') ?? 0) + 1;
+
         $user = User::create([
+            'member_code' => 'TRZ-' . str_pad($nextId, 6, '0', STR_PAD_LEFT),
+
+            'qr_token' => Str::uuid(),
+
             'full_name' => $validated['full_name'],
             'username' => $validated['username'],
             'email' => $validated['email'],
@@ -32,32 +39,33 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-{
-    $user = User::where('username', $request->username)->first();
+    {
+        $user = User::where('username', $request->username)->first();
 
-    if (!$user) {
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Username tidak ditemukan'
+            ], 401);
+        }
+
+        if (!Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Password salah'
+            ], 401);
+        }
+
         return response()->json([
-            'success' => false,
-            'message' => 'Username tidak ditemukan'
-        ], 401);
+            'success' => true,
+            'message' => 'Login berhasil',
+            'user' => [
+                'id' => $user->id,
+                'member_code' => $user->member_code,
+                'full_name' => $user->full_name,
+                'username' => $user->username,
+                'email' => $user->email
+            ]
+        ]);
     }
-
-    if (!Hash::check($request->password, $user->password)) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Password salah'
-        ], 401);
-    }
-
-    return response()->json([
-        'success' => true,
-        'message' => 'Login berhasil',
-        'user' => [
-            'id' => $user->id,
-            'full_name' => $user->full_name,
-            'username' => $user->username,
-            'email' => $user->email
-        ]
-    ]);
-}
 }

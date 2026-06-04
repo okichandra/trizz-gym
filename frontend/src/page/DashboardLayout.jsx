@@ -10,9 +10,9 @@ function DashboardLayout() {
         navigate("/account")
     }
     return (
-        <div className="md:flex md:h-screen bg-main-background pt-14 text-white w-full font-rethink-sans relative">
+        <div className="md:flex md:h-screen bg-main-background text-white w-full font-rethink-sans relative">
             <SideBar />
-            <main className='px-6 flex-1'>
+            <main className='px-6 flex-1 pt-14'>
                 <Outlet />
             </main>
         </div>

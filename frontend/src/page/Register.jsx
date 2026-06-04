@@ -76,7 +76,7 @@ function Register() {
             alert("Terjadi error")
             setWaiting(false)
         }
-    }
+    }   
 
     return (
         <div className='bg-main-background md:h-screen min-h-screen w-screen flex md:items-center md:justify-center font-rethink-sans pt-4'>
