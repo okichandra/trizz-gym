@@ -20,13 +20,19 @@ function Transaction() {
             <h1 className='text-4xl font-bold' data-aos="fade-right">Transaction history</h1>
             <div>
                 {
-                    transactions.map(transaction => (
-                        <TransactionList
-                            key={transaction.id}
-                            transactions={transaction}
-                        />
-                    ))
+                    transactions.length === 0 ? (
+                        <p className='text-center text-gray-500' data-aos="fade-up">You have not made any transactions yet.</p>
+                    ) : (
+                        transactions.map((transaction, index) => (
+                            <TransactionList
+                                key={transaction.id}
+                                transactions={transaction}
+                                index={index}
+                            />
+                        ))
+                    )
                 }
+
             </div>
         </div>
     )
