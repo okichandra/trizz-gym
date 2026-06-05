@@ -64,7 +64,8 @@ class AuthController extends Controller
                 'member_code' => $user->member_code,
                 'full_name' => $user->full_name,
                 'username' => $user->username,
-                'email' => $user->email
+                'email' => $user->email,
+                'qr_token' => $user->qr_token
             ]
         ]);
     }

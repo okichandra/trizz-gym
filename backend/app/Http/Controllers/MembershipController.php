@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Membership;
+use App\Models\User;
 use App\Models\MembershipPlan;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class MembershipController extends Controller
 {
@@ -100,11 +103,98 @@ class MembershipController extends Controller
         ])
             ->where('user_id', $userId)
             ->latest()
-            ->get();
+            ->get()
+            ->map(function ($transaction) {
+
+                return [
+                    'id' => $transaction->id,
+
+                    'transaction_code' =>
+                        $transaction->transaction_code,
+
+                    'plan_name' =>
+                        $transaction->membership?->plan?->name,
+
+                    'amount' =>
+                        $transaction->amount,
+
+                    'status' =>
+                        $transaction->status,
+
+                    'paid_at' =>
+                        $transaction->paid_at,
+
+                    'created_at' =>
+                        $transaction->created_at,
+                    'formatted_amount' =>
+                        'Rp ' . number_format(
+                            $transaction->amount,
+                            0,
+                            ',',
+                            '.'
+                        ),
+                ];
+            });
 
         return response()->json([
             'success' => true,
             'transactions' => $transactions
         ]);
+    }
+    public function validateQr($qrToken)
+    {
+        $user = User::where(
+            'qr_token',
+            $qrToken
+        )->first();
+
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'QR tidak valid'
+            ], 404);
+        }
+
+        $membership = Membership::with('plan')
+            ->where('user_id', $user->id)
+            ->where('status', 'active')
+            ->where('end_date', '>', now())
+            ->latest()
+            ->first();
+
+        if (!$membership) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Membership tidak aktif'
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Access Granted',
+
+            'user' => [
+                'full_name' => $user->full_name,
+                'member_code' => $user->member_code
+            ],
+
+            'membership' => [
+                'plan' => $membership->plan->name,
+                'expires_at' => $membership->end_date
+            ]
+        ]);
+    }
+    public function generateQr($userId)
+    {
+        $user = User::findOrFail($userId);
+
+        $qr = QrCode::size(300)
+            ->backgroundColor(0, 0, 0, 0)
+            ->color(163, 163, 163)
+            ->style('dot')
+            ->generate($user->qr_token);
+
+        return response($qr)
+            ->header('Content-Type', 'image/svg+xml');
     }
 }

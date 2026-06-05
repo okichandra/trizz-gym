@@ -28,3 +28,11 @@ Route::get(
     '/transactions/{userId}',
     [MembershipController::class, 'transactionHistory']
 );
+Route::get(
+    '/validate-qr/{token}',
+    [MembershipController::class, 'validateQr']
+);
+Route::get(
+    '/member-card/qr/{userId}',
+    [MembershipController::class, 'generateQr']
+);
