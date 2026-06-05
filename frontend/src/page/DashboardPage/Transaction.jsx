@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from 'react'
 import TransactionList from '../../component/Personal/TransactionList'
-import { getTransactions } from '../../api/transactionService'
+import { getTransactions    } from '../../api/transactionService'
 import AOS from 'aos'
 function Transaction() {
     const [transactions, setTransactions] = useState([])
@@ -16,12 +16,12 @@ function Transaction() {
             .catch(err => console.error(err))
     }, [])
     return (
-        <div className='w-full min-h-screen h-full flex flex-col gap-12'>
+        <div className='w-full flex flex-col gap-12'>
             <h1 className='text-4xl font-bold' data-aos="fade-right">Transaction history</h1>
             <div>
                 {
                     transactions.length === 0 ? (
-                        <p className='text-center text-gray-500' data-aos="fade-up">You have not made any transactions yet.</p>
+                            <p className='text-center text-gray-500' data-aos="fade-up">You have not made any transactions yet.</p>
                     ) : (
                         transactions.map((transaction, index) => (
                             <TransactionList

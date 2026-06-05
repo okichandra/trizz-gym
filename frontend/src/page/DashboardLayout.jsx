@@ -6,13 +6,13 @@ function DashboardLayout() {
     const location = useLocation()
     const navigate = useNavigate()
 
-    if(location.pathname == "/") {
+    if (location.pathname == "/") {
         navigate("/account")
     }
     return (
-        <div className="md:flex md:h-screen bg-main-background text-white w-full font-rethink-sans relative">
+        <div id="dashboard-layout" className="md:flex md:h-screen bg-main-background text-white w-full font-rethink-sans relative">
             <SideBar />
-            <main className='px-6 flex-1 pt-14'>
+            <main className='px-6 flex-1 pt-14 min-h-screen'>
                 <Outlet />
             </main>
         </div>

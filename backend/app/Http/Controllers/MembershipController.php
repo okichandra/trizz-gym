@@ -8,6 +8,7 @@ use App\Models\MembershipPlan;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Models\QrScanLog;
 
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -163,11 +164,22 @@ class MembershipController extends Controller
             ->first();
 
         if (!$membership) {
+            QrScanLog::create([
+                'user_id' => $user->id,
+                'scanned_at' => now(),
+                'status' => 'failed'
+            ]);
             return response()->json([
                 'success' => false,
                 'message' => 'Membership tidak aktif'
             ]);
         }
+        
+        QrScanLog::create([
+            'user_id' => $user->id,
+            'scanned_at' => now(),
+            'status' => 'success'
+        ]);
 
         return response()->json([
             'success' => true,
@@ -183,6 +195,7 @@ class MembershipController extends Controller
                 'expires_at' => $membership->end_date
             ]
         ]);
+
     }
     public function generateQr($userId)
     {
