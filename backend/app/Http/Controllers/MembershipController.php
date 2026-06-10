@@ -32,10 +32,31 @@ class MembershipController extends Controller
             ->first();
 
         if ($existingMembership) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Anda masih memiliki membership aktif atau menunggu pembayaran'
-            ], 400);
+
+            if ($existingMembership->status === 'active') {
+
+                return response()->json([
+                    'success' => false,
+                    'type' => 'active_membership',
+                    'message' => 'Membership masih aktif'
+                ], 400);
+
+            }
+
+            if ($existingMembership->status === 'pending') {
+
+                $transaction = Transaction::where(
+                    'membership_id',
+                    $existingMembership->id
+                )->first();
+
+                return response()->json([
+                    'success' => false,
+                    'type' => 'pending_payment',
+                    'transaction_id' => $transaction->id,
+                    'message' => 'Anda memiliki pembayaran yang belum selesai'
+                ], 400);
+            }
         }
 
         $plan = MembershipPlan::findOrFail(
@@ -65,8 +86,16 @@ class MembershipController extends Controller
 
         return response()->json([
             'success' => true,
-            'membership' => $membership,
-            'transaction' => $transaction
+            'message' => 'Transaction created',
+
+            'membership_id' => $membership->id,
+
+            'transaction' => [
+                'id' => $transaction->id,
+                'transaction_code' => $transaction->transaction_code,
+                'amount' => $transaction->amount,
+                'status' => $transaction->status
+            ]
         ]);
     }
 
@@ -174,7 +203,7 @@ class MembershipController extends Controller
                 'message' => 'Membership tidak aktif'
             ]);
         }
-        
+
         QrScanLog::create([
             'user_id' => $user->id,
             'scanned_at' => now(),
@@ -209,5 +238,23 @@ class MembershipController extends Controller
 
         return response($qr)
             ->header('Content-Type', 'image/svg+xml');
+    }
+    public function paymentStatus($transactionId)
+    {
+        $transaction = Transaction::with(
+            'membership.plan'
+        )->findOrFail($transactionId);
+
+        return response()->json([
+            'success' => true,
+
+            'transaction' => [
+                'id' => $transaction->id,
+                'transaction_code' => $transaction->transaction_code,
+                'amount' => $transaction->amount,
+                'status' => $transaction->status,
+                'paid_at' => $transaction->paid_at
+            ]
+        ]);
     }
 }

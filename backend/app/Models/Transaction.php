@@ -24,6 +24,8 @@ class Transaction extends Model
 
     public function membership()
     {
-        return $this->belongsTo(Membership::class);
+        return $this->belongsTo(
+            Membership::class
+        );
     }
 }

@@ -16,7 +16,7 @@ function Transaction() {
             .catch(err => console.error(err))
     }, [])
     return (
-        <div className='w-full flex flex-col gap-12'>
+        <div className='w-full flex min-h-screen pb-30 flex-col gap-12'>
             <h1 className='text-4xl font-bold' data-aos="fade-right">Transaction history</h1>
             <div>
                 {
