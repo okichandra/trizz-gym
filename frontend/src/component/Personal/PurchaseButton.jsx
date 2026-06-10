@@ -106,13 +106,13 @@ function PurchaseButton({ planId }) {
                         <div className="flex gap-3 flex-col font-semibold">
                             <button
                                 onClick={continuePayment}
-                                className="flex-1 bg-violet-600 hover:bg-violet-700 py-2 rounded-lg"
+                                className="flex-1 bg-violet-600 cursor-pointer hover:bg-violet-700 py-2 rounded-lg"
                             >
                                 Continue previous transaction
                             </button>
                             <button
                                 onClick={cancelPendingPayment}
-                                className="flex-1 bg-main-background text-purple-600 border-violet-600 border-2 py-2 rounded-lg"
+                                className="flex-1 bg-main-background text-purple-600 border-violet-600 border-2 py-2 rounded-lg cursor-pointer"
                             >
                                 Cancel & Choose New
                             </button>

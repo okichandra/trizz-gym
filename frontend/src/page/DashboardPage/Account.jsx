@@ -56,7 +56,7 @@ export default function Account() {
 
     AOS.init()
     return (
-        <div className='bg-main-background h-full text-white flex flex-col font-rethink-sans min-h-screen'>
+        <div className='bg-main-background h-full text-white flex flex-col font-rethink-sans '>
             <h1 className='text-3xl font-semibold capitalize' data-aos="fade-right">
                 Welcome Back, {user.username
                 }
@@ -90,7 +90,7 @@ export default function Account() {
                         className="bg-black/60 flex justify-center items-center pt-5">
                         <div
                             onClick={() => navigate(`/payment/${pendingData.id}`)}w
-                            className="bg-main-background border border-amber-400/45 py-2 px-4 rounded-xl w-full max-w-md flex items-center justify-between">
+                            className="bg-main-background border border-amber-400/45 py-2 px-4 rounded-xl w-full flex items-center justify-between cursor-pointer">
                             <div>
                                 <h2 className="text-lg font-semibold">
                                     Continue Payment
