@@ -90,7 +90,7 @@ export default function Account() {
                         data-aos="fade-up"
                         className="bg-black/60 flex justify-center items-center pt-5">
                         <div
-                            onClick={() => navigate(`/payment/${pendingData.id}`)} w
+                            onClick={() => navigate(`/payment/${pendingData.id}`)}
                             className="bg-main-background border border-amber-400/45 py-2 px-4 rounded-xl w-full flex items-center justify-between cursor-pointer">
                             <div>
                                 <h2 className="text-lg font-semibold">
