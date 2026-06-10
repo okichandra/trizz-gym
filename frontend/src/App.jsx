@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './page/Login'
 import Account from './page/DashboardPage/Account';
 import Register from './page/Register';
@@ -28,7 +28,7 @@ function App() {
           <Route path='/testdb' element={<TestDB />} />
           <Route path="/payment/:transactionId" element={<Payment />}
           />
-          {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter >
     </>

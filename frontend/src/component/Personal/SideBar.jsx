@@ -7,7 +7,7 @@ import MembershipIcon from '../../assets/membership-icon.svg'
 
 function SideBar() {
     return (
-        <div className='Sidebar max-md:fixed bg-secondary-background max-md:left-1/2 max-md:-translate-x-1/2 md:block max-md:bottom-6 max-md:w-5/6 md:w-1/4 md:h-full md:pt-14 flex flex-col gap-10 shadow-[0_0_0_1px_rgba(225,225,225,.1)] max-md:rounded-4xl z-10'>
+        <div className='Sidebar max-md:fixed bg-secondary-background max-md:left-1/2 max-md:-translate-x-1/2 md:block max-md:bottom-6 max-md:w-5/6 md:w-1/4 md:h-min-screen md:pt-14 flex flex-col gap-10 shadow-[0_0_0_1px_rgba(225,225,225,.1)] max-md:rounded-4xl z-10'>
             <div className='Logo w-full hidden md:flex justify-center items-center gap-3 font-semibold'>
                 <img src={Logo} alt="trizz logo" className='w-12' />
                 <span className='text-light'>Tirzz GYM</span>
