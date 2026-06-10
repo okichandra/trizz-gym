@@ -36,7 +36,8 @@ return new class extends Migration {
                 'pending',
                 'paid',
                 'failed',
-                'expired'
+                'expired',
+                'cancelled'
             ])->default('pending');
 
             $table->timestamp('paid_at')

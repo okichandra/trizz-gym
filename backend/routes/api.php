@@ -61,3 +61,9 @@ Route::post(
     '/transactions/{id}/cancel',
     [TransactionController::class, 'cancel']
 );
+Route::get('/test', function () {
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Tirzz Gym API Running'
+    ]);
+});
