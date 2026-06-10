@@ -1,5 +1,6 @@
 import React, { Component, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Navigate } from "react-router-dom";
 import Logo from '../../assets/trizz-logo.svg'
 import AOS from 'aos'
 import { API_URL } from './../../api/config'
@@ -13,7 +14,7 @@ export default function Account() {
     const navigate = useNavigate()
 
     if (!user) {
-        navigate('/login')
+        return <Navigate to="/login" replace />;
     }
 
     const [membershipStatus, setMembershipStatus] = React.useState(null)
@@ -85,11 +86,11 @@ export default function Account() {
             </div>
             {
                 showModal && (
-                    <div 
+                    <div
                         data-aos="fade-up"
                         className="bg-black/60 flex justify-center items-center pt-5">
                         <div
-                            onClick={() => navigate(`/payment/${pendingData.id}`)}w
+                            onClick={() => navigate(`/payment/${pendingData.id}`)} w
                             className="bg-main-background border border-amber-400/45 py-2 px-4 rounded-xl w-full flex items-center justify-between cursor-pointer">
                             <div>
                                 <h2 className="text-lg font-semibold">
