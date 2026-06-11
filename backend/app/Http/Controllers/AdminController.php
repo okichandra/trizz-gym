@@ -10,6 +10,7 @@ use App\Models\Transaction;
 use App\Models\MembershipPlan;
 use App\Models\MembershipBenefit;
 use App\Models\QrScanLog;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
@@ -260,6 +261,30 @@ class AdminController extends Controller
 
         return response()->json([
             'success' => true
+        ]);
+    }
+    public function createMember(Request $request)
+    {
+        $member = User::create([
+            'full_name' => $request->full_name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => bcrypt(
+                $request->password
+            ),
+            'member_code' => 'TRZ-' .
+                str_pad(
+                    User::max('id') + 1,
+                    6,
+                    '0',
+                    STR_PAD_LEFT
+                ),
+            'qr_token' => Str::uuid()
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'member' => $member
         ]);
     }
 }

@@ -115,3 +115,7 @@ Route::delete(
     '/admin/membership-plans/{id}',
     [AdminController::class, 'deletePlan']
 );
+Route::post(
+    '/admin/members',
+    [AdminController::class, 'createMember']
+);
