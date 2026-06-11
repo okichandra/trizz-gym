@@ -3,18 +3,20 @@ import { getMembershipPlans } from "../../api/membership"
 import SubcriptionCard from '../../component/Personal/SubcriptionCard'
 
 function Membership() {
-    const [plans, setPlans] = useState([])
 
+    const [plans, setPlans] = useState([])
 
     useEffect(() => {
         getMembershipPlans()
             .then(data => {
-                setPlans(data)
+                setPlans(data.plans || [])
             })
             .catch(err => console.error(err))
     }, [])
+
     return (
         <div className='flex flex-col items-center max-md:items-start bg-main-background pb-36 min-h-screen md:overflow-hidden'>
+
             <h1
                 className='text-3xl text-left font-bold mb-2'
                 data-aos="fade-right"
@@ -33,13 +35,15 @@ function Membership() {
             <div className='flex w-full justify-center pt-15'>
                 <div className='w-full gap-12 flex max-lg:flex-col items-center md:items-start justify-evenly'>
 
-                    {plans.toReversed().map(plan => (
-                        <SubcriptionCard
-                            key={plan.id}
-                            plan={plan}
-                        />
-                    ))}
-
+                    {plans
+                        .slice()
+                        .reverse()
+                        .map(plan => (
+                            <SubcriptionCard
+                                key={plan.id}
+                                plan={plan}
+                            />
+                        ))}
                 </div>
             </div>
         </div>

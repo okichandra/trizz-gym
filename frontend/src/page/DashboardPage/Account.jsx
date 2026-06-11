@@ -16,6 +16,18 @@ export default function Account() {
     if (!user) {
         return <Navigate to="/login" replace />;
     }
+    const handleLogout = () => {
+
+        const confirmLogout = window.confirm(
+            "Are you sure you want to logout?"
+        );
+
+        if (!confirmLogout) return;
+
+        localStorage.removeItem("user");
+
+        navigate("/login");
+    };
 
     const [membershipStatus, setMembershipStatus] = React.useState(null)
 
@@ -106,6 +118,23 @@ export default function Account() {
                     </div>
                 )
             }
+            <button
+                onClick={handleLogout}
+                data-aos="fade-up"
+                data-aos-delay="400"
+                className="
+        mt-4
+        bg-gray-950
+        shadow-[0_0_0_1px_rgba(225,225,225,.1)]
+        px-4
+        py-2
+        rounded-lg
+        font-semibold
+        w-full
+    "
+            >
+                Logout
+            </button>
         </div>
     )
 }

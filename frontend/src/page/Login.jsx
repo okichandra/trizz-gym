@@ -67,6 +67,7 @@ export default function Login() {
                             <div className='flex flex-col gap-1 -mt-3'>
                                 <SubmitButton text="Sign in" waiting={waiting} />
                                 <span className='text-medium text-sm'>Don't have account? <Link to="/register" className='font-semibold text-light'>Sign Up</Link></span>
+                                <span className='text-medium text-sm'>Login as admin? <Link to="/admin-login" className='font-semibold text-light'>Admin</Link></span>
                             </div>
                         </form>
                     </div>

@@ -8,7 +8,13 @@ import DashboardLayout from './page/DashboardLayout'
 import Transaction from './page/DashboardPage/Transaction';
 import Membership from './page/DashboardPage/Membership';
 import PurchaseMembership from './component/Personal/PurchaseMembership';
+import AdminLogin from './page/AdminLogin'
 import Payment from './page/Payment'
+import AdminLayout from './page/AdminLayout';
+import AdminDashboard from './page/AdminDashboardPage/AdminDashboard';
+import AdminMembers from './page/AdminDashboardPage/AdminMembers';
+import AdminTransactions from './page/AdminDashboardPage/AdminTransactions';
+import AdminMembershipPlans from './page/AdminDashboardPage/AdminMembershipPlans';
 
 function App() {
   return (
@@ -28,7 +34,15 @@ function App() {
           <Route path='/testdb' element={<TestDB />} />
           <Route path="/payment/:transactionId" element={<Payment />}
           />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+          <Route path="/admin-login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminMembers />} />
+            <Route path="members" element={<AdminMembers />} />
+            <Route path="transactions" element={<AdminTransactions />} />
+            <Route path="membership-plans" element={<AdminMembershipPlans />}
+            />
+          </Route>
         </Routes>
       </BrowserRouter >
     </>

@@ -9,11 +9,14 @@ class MembershipPlanController extends Controller
 {
     public function index()
     {
-        $plans = MembershipPlan::with('benefits')
-            ->where('is_active', true)
-            ->get();
+        $plans = MembershipPlan::with(
+            'benefits'
+        )->get();
 
-        return response()->json($plans);
+        return response()->json([
+            'success' => true,
+            'plans' => $plans
+        ]);
     }
 
     public function show($id)

@@ -6,6 +6,7 @@ use App\Http\Controllers\MembershipPlanController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\AdminController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -67,3 +68,50 @@ Route::get('/test', function () {
         'message' => 'Tirzz Gym API Running'
     ]);
 });
+Route::post(
+    '/admin/login',
+    [AdminController::class, 'login']
+);
+Route::get(
+    '/admin/members',
+    [AdminController::class, 'members']
+);
+Route::get(
+    '/admin/members',
+    [AdminController::class, 'members']
+);
+
+Route::get(
+    '/admin/members/{id}',
+    [AdminController::class, 'member']
+);
+
+Route::put(
+    '/admin/members/{id}',
+    [AdminController::class, 'updateMember']
+);
+
+Route::delete(
+    '/admin/members/{id}',
+    [AdminController::class, 'deleteMember']
+);
+
+Route::get(
+    '/admin/transactions',
+    [AdminController::class, 'transactions']
+);
+
+Route::post(
+    '/admin/membership-plans',
+    [AdminController::class, 'storePlan']
+);
+
+Route::put(
+    '/admin/membership-plans/{id}',
+    [AdminController::class, 'updatePlan']
+);
+
+Route::delete(
+    '/admin/membership-plans/{id}',
+    [AdminController::class, 'deletePlan']
+);
